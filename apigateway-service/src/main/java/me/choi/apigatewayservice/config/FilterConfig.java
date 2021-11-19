@@ -10,6 +10,7 @@ public class FilterConfig {
 
     @Bean
     public RouteLocator gatewayRoutes(RouteLocatorBuilder builder) {
+
         return builder.routes()
                       .route(r -> r.path("/first-service/**")
                                    .filters(f -> f.addRequestHeader("first-request", "first-request-header")
@@ -20,5 +21,6 @@ public class FilterConfig {
                                                   .addResponseHeader("second-response", "second-response-header"))
                                    .uri("http://localhost:8082"))
                       .build();
+
     }
 }
