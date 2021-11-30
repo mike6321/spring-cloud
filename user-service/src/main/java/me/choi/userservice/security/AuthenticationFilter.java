@@ -2,7 +2,11 @@ package me.choi.userservice.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import me.choi.userservice.dto.UserDto;
+import me.choi.userservice.service.UserService;
 import me.choi.userservice.vo.RequestLogin;
+import org.springframework.core.env.Environment;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -18,6 +22,15 @@ import java.util.ArrayList;
 
 @Slf4j
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+
+    private UserService userService;
+    private Environment environment;
+
+    public AuthenticationFilter(AuthenticationManager authenticationManager, UserService userService, Environment environment) {
+        super.setAuthenticationManager(authenticationManager);
+        this.userService = userService;
+        this.environment = environment;
+    }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -37,6 +50,9 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        log.debug(((User)authResult.getPrincipal()).getUsername());
+
+        String username = ((User) authResult.getPrincipal()).getUsername();
+        UserDto userDetails = userService.getUserDetailsByEmail(username);
+
     }
 }
