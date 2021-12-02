@@ -2,7 +2,6 @@ package me.choi.apigatewayservice.filter;
 
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHeaders;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -16,13 +15,16 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 @Slf4j
-@AllArgsConstructor
 @Component
 public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<AuthorizationHeaderFilter.Config> {
 
     private final Environment environment;
 
-    
+    public AuthorizationHeaderFilter(Environment environment) {
+        super(Config.class);
+        this.environment = environment;
+    }
+
     // login -> token -> users (with token) -> header(include token)
     @Override
     public GatewayFilter apply(Config config) {

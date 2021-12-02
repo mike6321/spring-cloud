@@ -78,3 +78,6 @@ spring:
               baseMessage: Hi, there.
               preLogger: true
               postLogger: true
+
+token:
+  secret: user_token
