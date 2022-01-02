@@ -8,4 +8,4 @@ spring:
     config:
       server:
         git:
-          uri: file:///Users/nhn/IdeaProjects/repository/SpringCloud
+          uri: file:///Users/nhn/IdeaProjects/repository/TIL
